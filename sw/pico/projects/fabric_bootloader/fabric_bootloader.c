@@ -535,16 +535,17 @@ int main() {
 	stdio_set_translate_crlf(&stdio_usb, false);
 	stdio_flush();
 
-#if ENABLE_DEBUG_LOG
-	// Init debug uart
+	// BUG: usb serial uart doesn't appear to work in prod when not called.
     uart_init(DEBUG_UART_ID, 115200);
+#if ENABLE_DEBUG_LOG	
+	// Init debug uart
     gpio_set_function(DEBUG_UART_TX_PIN, GPIO_FUNC_UART);
     gpio_set_function(DEBUG_UART_RX_PIN, GPIO_FUNC_UART);
     int __unused actual = uart_set_baudrate(DEBUG_UART_ID, 115200);
     uart_set_hw_flow(DEBUG_UART_ID, false, false);
     uart_set_format(DEBUG_UART_ID, 8, 1, UART_PARITY_NONE);
     uart_set_fifo_enabled(DEBUG_UART_ID, false);
-	DEBUG_PRINT("\r\n\r\n[DEBUG MAIN]\r\n");
+	DEBUG_PRINT("\r\n\r\n[DEBUG MAIN]\r\n");	
 #endif
 		
 	// init device
@@ -552,7 +553,7 @@ int main() {
 	fpga_init_config( &config, BOARD_ANY );
 
 	// auto program on startup
-	//auto_program_bitstream_flash( &config, 0 );	
+	auto_program_bitstream_flash( &config, 0 );	
 	
 	uint8_t isBusy ;
 	int isProgramming = 0;

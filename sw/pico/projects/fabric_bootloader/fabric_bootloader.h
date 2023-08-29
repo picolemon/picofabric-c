@@ -5,7 +5,7 @@
 
 /** Config
 */
-#define ENABLE_DEBUG_LOG 1
+#define ENABLE_DEBUG_LOG 0
 
 /** Constants
 */
